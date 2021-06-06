@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: go-k8s
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: go-k8s
+              image: heeeepin/go-k8s
+              env:
+                - name: DEMO_GREETING
+                  value: "Hello from the environment"
+              command:
+                - /bin/sh
+                - -c
+                - date; echo Hello from the Kubernetes cluster; echo $DEMO_GREETING
+          restartPolicy: OnFailure

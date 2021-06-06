@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-k8s
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: go-k8s
+  ports:
+    - name: go-k8s
+      port: 5030
+      targetPort: 5030
