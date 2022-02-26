@@ -15,9 +15,34 @@ spec:
       containers:
         - name: go-k8s-container
           image: heeeepin/go-k8s
+          imagePullPolicy: Always
           resources:
             limits:
               memory: "128Mi"
               cpu: "500m"
-          ports:
-            - containerPort: 5030
+#          ports:
+#            - containerPort: 5030
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: go-k8s
+                  key: server_port
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: go-k8s
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: go-k8s
+                  key: password
